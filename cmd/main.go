@@ -13,12 +13,13 @@ import (
 
 // This is a sample application built on the terminal.
 func main() {
-	patcherService := adapter.NewPatcherService("multipatch")
+	patcherService := adapter.NewPatcherService("./multipatch")
 	openerService := adapter.NewOpenerService()
 	scrapperService := adapter.NewScrapperService("https://www.smwcentral.net", "/?p=section&s=smwhacks")
 	downloaderService := adapter.NewDownloaderService("downloads")
 	storageService := adapter.NewStorageService()
 	zipCompressionService := adapter.NewZipCompressionService()
+	fileSystemService := adapter.NewFileSystemService()
 	logger := adapter.NewLogger()
 
 	hacks := getHackList(logger, scrapperService, storageService)
@@ -35,6 +36,7 @@ func main() {
 
 	patchPath := extractPatch(logger, zipCompressionService, compressedHackPath, compressedPatchPath)
 	patchedROMPath := patchRomFromFile(logger, patcherService, selectedHack, patchPath)
+	deleteFiles(logger, fileSystemService, compressedHackPath)
 	openROM(logger, openerService, patchedROMPath)
 }
 
@@ -175,4 +177,17 @@ func extractPatch(
 	}
 
 	return patchPath
+}
+
+func deleteFiles(
+	logger port.Logger,
+	fileSystemService port.FileSystemService,
+	compressedHackPath string,
+) {
+	theInteractor := interactor.NewDeleteFiles(logger, fileSystemService)
+	if err := theInteractor.Execute(interactor.DeleteFilesInput{
+		Files: []string{compressedHackPath},
+	}); err != nil {
+		log.Fatalln(err.Error())
+	}
 }
