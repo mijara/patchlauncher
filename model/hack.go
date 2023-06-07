@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type Hack struct {
 	URL         string // Used as primary key.
 	Title       string
@@ -8,4 +10,5 @@ type Hack struct {
 	Rating      string
 	Downloads   string
 	Type        string
+	UploadedAt  time.Time
 }

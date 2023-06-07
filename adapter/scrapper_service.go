@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"smwlauncher/model"
 	"strings"
+	"time"
 )
 
 const (
@@ -36,12 +37,18 @@ func (s *ScrapperService) ScrapHackList() ([]model.Hack, error) {
 			switch i {
 			case 0:
 				hack.Title = element.ChildText("a")
+
 				hackURL, err := url.QueryUnescape(s.webBase + element.ChildAttr("a", "href"))
 				if err != nil {
 					return
 				}
-
 				hack.URL = hackURL
+
+				uploadedAt, err := time.Parse("2006-01-02T15:04:05", element.ChildAttr("span time", "datetime"))
+				if err != nil {
+					return
+				}
+				hack.UploadedAt = uploadedAt
 			case 4:
 				hack.Type = element.Text
 			case 5:

@@ -4,6 +4,7 @@ import (
 	"go.uber.org/zap"
 	"smwlauncher/model"
 	"smwlauncher/port"
+	"sort"
 	"time"
 )
 
@@ -34,36 +35,42 @@ type GetHackListOutput struct {
 }
 
 func (it *GetHackList) Execute(input GetHackListInput) (*GetHackListOutput, error) {
+	hacks := make([]model.Hack, 0)
+	cached := false
+
 	if !input.RefreshCache {
-		hacks, updatedAt, err := it.storageService.LoadHacks()
+		cachedHacks, updatedAt, err := it.storageService.LoadHacks()
 		if err != nil {
 			return nil, err
 		}
 
-		it.logger.Info("hack list gotten",
-			zap.Any("input", input),
-			zap.Bool("cache", true),
-		)
-
 		if time.Now().Sub(updatedAt) < time.Minute*15 {
-			return &GetHackListOutput{
-				Hacks: hacks,
-			}, nil
+			hacks = cachedHacks
+			cached = true
 		}
 	}
 
-	hacks, err := it.scrapperService.ScrapHackList()
-	if err != nil {
-		return nil, err
+	if !cached {
+		scrappedHacks, err := it.scrapperService.ScrapHackList()
+		if err != nil {
+			return nil, err
+		}
+
+		hacks = scrappedHacks
 	}
 
 	if err := it.storageService.StoreHacks(hacks); err != nil {
 		return nil, err
 	}
 
+	// Sort hacks.
+	sort.Slice(hacks, func(i, j int) bool {
+		return hacks[i].UploadedAt.After(hacks[j].UploadedAt)
+	})
+
 	it.logger.Info("hack list gotten",
 		zap.Any("input", input),
-		zap.Bool("cache", false),
+		zap.Bool("cache", cached),
 	)
 
 	return &GetHackListOutput{

@@ -132,6 +132,7 @@ func promptHackFromList(hacks []model.Hack) model.Hack {
 Authors: {{ .Authors }}
 Type: {{ .Type }}
 Downloads: {{ .Downloads }}
+Uploaded: {{ .UploadedAt }} 
 `,
 		},
 	}
