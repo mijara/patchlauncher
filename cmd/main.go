@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"smwlauncher/adapter"
 	"smwlauncher/interactor"
+	"smwlauncher/model"
 	"smwlauncher/port"
 )
 
@@ -39,7 +40,7 @@ func main() {
 func getHackList(
 	logger port.Logger,
 	scrapperService port.ScrapperService,
-) []port.ROMHack {
+) []model.Hack {
 	theInteractor := interactor.NewGetHackList(logger, scrapperService)
 	output, err := theInteractor.Execute()
 	if err != nil {
@@ -52,7 +53,7 @@ func getHackList(
 func patchRomFromFile(
 	logger port.Logger,
 	patcherService port.PatcherService,
-	hack port.ROMHack,
+	hack model.Hack,
 	patchPath string,
 ) string {
 	patchedROMPath := filepath.Join("patched", slug.Make(hack.Title)+".sfc")
@@ -85,7 +86,7 @@ func openROM(
 func downloadCompressedHack(
 	logger port.Logger,
 	downloaderService port.DownloaderService,
-	hack port.ROMHack,
+	hack model.Hack,
 ) string {
 	theInteractor := interactor.NewDownloadCompressedHack(logger, downloaderService)
 	path, err := theInteractor.Execute(interactor.DownloadCompressedHackInput{
@@ -114,7 +115,7 @@ func getCompressedHackPatches(
 	return patches
 }
 
-func promptHackFromList(hacks []port.ROMHack) port.ROMHack {
+func promptHackFromList(hacks []model.Hack) model.Hack {
 	prompt := promptui.Select{
 		Label: "Select ROM Hack",
 		Items: hacks,

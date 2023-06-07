@@ -1,14 +1,7 @@
 package port
 
-type ScrapperService interface {
-	ScrapHackList() ([]ROMHack, error)
-}
+import "smwlauncher/model"
 
-type ROMHack struct {
-	Title       string
-	DownloadURL string
-	Authors     string
-	Rating      string
-	Downloads   string
-	Type        string
+type ScrapperService interface {
+	ScrapHackList() ([]model.Hack, error)
 }

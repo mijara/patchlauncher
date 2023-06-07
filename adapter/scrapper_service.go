@@ -2,7 +2,7 @@ package adapter
 
 import (
 	"github.com/gocolly/colly/v2"
-	"smwlauncher/port"
+	"smwlauncher/model"
 	"strings"
 )
 
@@ -23,13 +23,13 @@ func NewScrapperService(webBase, webSuffix string) *ScrapperService {
 	}
 }
 
-func (s *ScrapperService) ScrapHackList() ([]port.ROMHack, error) {
-	hacks := make([]port.ROMHack, 0)
+func (s *ScrapperService) ScrapHackList() ([]model.Hack, error) {
+	hacks := make([]model.Hack, 0)
 
 	c := colly.NewCollector()
 
 	c.OnHTML("#list-content .content tbody tr", func(element *colly.HTMLElement) {
-		hack := port.ROMHack{}
+		hack := model.Hack{}
 
 		element.ForEach("td", func(i int, element *colly.HTMLElement) {
 			switch i {

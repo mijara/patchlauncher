@@ -1,6 +1,9 @@
 package interactor
 
-import "smwlauncher/port"
+import (
+	"smwlauncher/model"
+	"smwlauncher/port"
+)
 
 type GetHackList struct {
 	logger          port.Logger
@@ -18,7 +21,7 @@ func NewGetHackList(
 }
 
 type GetHackListOutput struct {
-	Hacks []port.ROMHack
+	Hacks []model.Hack
 }
 
 func (it *GetHackList) Execute() (GetHackListOutput, error) {
