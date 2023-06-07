@@ -1,6 +1,9 @@
 package interactor
 
-import "smwlauncher/port"
+import (
+	"go.uber.org/zap"
+	"smwlauncher/port"
+)
 
 type PatchRomFromFile struct {
 	patcherService port.PatcherService
@@ -32,7 +35,9 @@ func (it *PatchRomFromFile) Execute(input PatchRomFromFileInput) error {
 		return err
 	}
 
-	it.logger.Info("rom patched from file")
+	it.logger.Info("rom patched from file",
+		zap.Any("input", input),
+	)
 
 	return nil
 }

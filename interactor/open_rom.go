@@ -1,6 +1,9 @@
 package interactor
 
-import "smwlauncher/port"
+import (
+	"go.uber.org/zap"
+	"smwlauncher/port"
+)
 
 type OpenROM struct {
 	openerService port.OpenerService
@@ -20,7 +23,9 @@ func (it *OpenROM) Execute(input OpenROMInput) error {
 		return err
 	}
 
-	it.logger.Debug("rom opened")
+	it.logger.Info("rom opened",
+		zap.Any("input", input),
+	)
 
 	return nil
 }

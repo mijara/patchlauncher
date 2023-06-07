@@ -17,10 +17,11 @@ func main() {
 	openerService := adapter.NewOpenerService()
 	scrapperService := adapter.NewScrapperService("https://www.smwcentral.net", "/?p=section&s=smwhacks")
 	downloaderService := adapter.NewDownloaderService("downloads")
+	storageService := adapter.NewStorageService()
 	zipCompressionService := adapter.NewZipCompressionService()
 	logger := adapter.NewLogger()
 
-	hacks := getHackList(logger, scrapperService)
+	hacks := getHackList(logger, scrapperService, storageService)
 	selectedHack := promptHackFromList(hacks)
 	compressedHackPath := downloadCompressedHack(logger, downloaderService, selectedHack)
 	patches := getCompressedHackPatches(logger, zipCompressionService, compressedHackPath)
@@ -40,9 +41,10 @@ func main() {
 func getHackList(
 	logger port.Logger,
 	scrapperService port.ScrapperService,
+	storageService port.StorageService,
 ) []model.Hack {
-	theInteractor := interactor.NewGetHackList(logger, scrapperService)
-	output, err := theInteractor.Execute()
+	theInteractor := interactor.NewGetHackList(logger, scrapperService, storageService)
+	output, err := theInteractor.Execute(interactor.GetHackListInput{})
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

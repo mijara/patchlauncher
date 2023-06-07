@@ -1,6 +1,7 @@
 package interactor
 
 import (
+	"go.uber.org/zap"
 	"smwlauncher/port"
 )
 
@@ -24,7 +25,7 @@ func (it *ExtractPatch) Execute(input ExtractPatchInput) (string, error) {
 		return "", err
 	}
 
-	it.logger.Info("patch extracted")
+	it.logger.Info("patch extracted", zap.Any("input", input))
 
 	return path, nil
 }

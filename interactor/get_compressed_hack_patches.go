@@ -1,6 +1,9 @@
 package interactor
 
-import "smwlauncher/port"
+import (
+	"go.uber.org/zap"
+	"smwlauncher/port"
+)
 
 type GetCompressedHackPatches struct {
 	logger             port.Logger
@@ -27,7 +30,9 @@ func (it *GetCompressedHackPatches) Execute(input GetCompressedHackPatchesInput)
 		return nil, err
 	}
 
-	it.logger.Info("compressed hack patches gotten")
+	it.logger.Info("compressed hack patches gotten",
+		zap.Any("input", input),
+	)
 
 	return patches, nil
 }

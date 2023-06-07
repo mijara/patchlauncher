@@ -3,6 +3,7 @@ package interactor
 import (
 	"errors"
 	"fmt"
+	"go.uber.org/zap"
 	"net/url"
 	"smwlauncher/port"
 	"strings"
@@ -39,7 +40,9 @@ func (it *DownloadCompressedHack) Execute(input DownloadCompressedHackInput) (st
 		return "", err
 	}
 
-	it.logger.Info("compressed hack downloaded")
+	it.logger.Info("compressed hack downloaded",
+		zap.Any("input", input),
+	)
 
 	return path, nil
 }

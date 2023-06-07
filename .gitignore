@@ -2,4 +2,7 @@
 multipatch
 smw.sfc
 .DS_Store
-
+downloads/*.zip
+downloads/*.bps
+storage/*.json
+patched/*.sfc

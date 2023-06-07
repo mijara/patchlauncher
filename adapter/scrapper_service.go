@@ -2,6 +2,7 @@ package adapter
 
 import (
 	"github.com/gocolly/colly/v2"
+	"net/url"
 	"smwlauncher/model"
 	"strings"
 )
@@ -26,7 +27,7 @@ func NewScrapperService(webBase, webSuffix string) *ScrapperService {
 func (s *ScrapperService) ScrapHackList() ([]model.Hack, error) {
 	hacks := make([]model.Hack, 0)
 
-	c := colly.NewCollector()
+	c := colly.NewCollector(colly.DetectCharset())
 
 	c.OnHTML("#list-content .content tbody tr", func(element *colly.HTMLElement) {
 		hack := model.Hack{}
@@ -35,6 +36,12 @@ func (s *ScrapperService) ScrapHackList() ([]model.Hack, error) {
 			switch i {
 			case 0:
 				hack.Title = element.ChildText("a")
+				hackURL, err := url.QueryUnescape(s.webBase + element.ChildAttr("a", "href"))
+				if err != nil {
+					return
+				}
+
+				hack.URL = hackURL
 			case 4:
 				hack.Type = element.Text
 			case 5:
