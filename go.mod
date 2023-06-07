@@ -1,4 +1,4 @@
-module smwlauncher
+module github.com/mijara/patchlauncher
 
 go 1.20
 

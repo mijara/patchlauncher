@@ -3,12 +3,12 @@ package main
 import (
 	"github.com/gosimple/slug"
 	"github.com/manifoldco/promptui"
+	"github.com/mijara/patchlauncher/adapter"
+	"github.com/mijara/patchlauncher/interactor"
+	"github.com/mijara/patchlauncher/model"
+	"github.com/mijara/patchlauncher/port"
 	"log"
 	"path/filepath"
-	"smwlauncher/adapter"
-	"smwlauncher/interactor"
-	"smwlauncher/model"
-	"smwlauncher/port"
 )
 
 // This is a sample application built on the terminal.

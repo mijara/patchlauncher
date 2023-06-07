@@ -1,7 +1,7 @@
 package port
 
 import (
-	"smwlauncher/model"
+	"github.com/mijara/patchlauncher/model"
 	"time"
 )
 

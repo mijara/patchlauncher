@@ -3,9 +3,9 @@ package adapter
 import (
 	"encoding/json"
 	"errors"
+	"github.com/mijara/patchlauncher/model"
 	"io"
 	"os"
-	"smwlauncher/model"
 	"time"
 )
 

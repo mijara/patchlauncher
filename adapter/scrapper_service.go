@@ -2,8 +2,8 @@ package adapter
 
 import (
 	"github.com/gocolly/colly/v2"
+	"github.com/mijara/patchlauncher/model"
 	"net/url"
-	"smwlauncher/model"
 	"strings"
 	"time"
 )

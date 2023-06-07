@@ -3,9 +3,9 @@ package interactor
 import (
 	"errors"
 	"fmt"
+	"github.com/mijara/patchlauncher/port"
 	"go.uber.org/zap"
 	"net/url"
-	"smwlauncher/port"
 	"strings"
 )
 

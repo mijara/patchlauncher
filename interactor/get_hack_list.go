@@ -1,9 +1,9 @@
 package interactor
 
 import (
+	"github.com/mijara/patchlauncher/model"
+	"github.com/mijara/patchlauncher/port"
 	"go.uber.org/zap"
-	"smwlauncher/model"
-	"smwlauncher/port"
 	"sort"
 	"time"
 )

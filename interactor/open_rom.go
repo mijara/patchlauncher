@@ -1,8 +1,8 @@
 package interactor
 
 import (
+	"github.com/mijara/patchlauncher/port"
 	"go.uber.org/zap"
-	"smwlauncher/port"
 )
 
 type OpenROM struct {
